@@ -1,41 +1,36 @@
 const Koa = require('koa')
-const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
-
+const consola = require('consola')
 const app = new Koa()
 
-// Import and Set Nuxt.js options
+// 1. 加载 Nuxt 配置
 let config = require('../nuxt.config.js')
-config.dev = !(app.env === 'production')
+config.dev = process.env.NODE_ENV !== 'production'
 
 async function start() {
-  // Instantiate nuxt.js
+  // 2. 初始化 Nuxt
   const nuxt = new Nuxt(config)
 
-  const {
-    host = process.env.HOST || '127.0.0.1',
-    port = process.env.PORT || 3000
-  } = nuxt.options.server
-
-  // Build in development
+  // 3. 如果是开发模式，构建
   if (config.dev) {
     const builder = new Builder(nuxt)
     await builder.build()
-  } else {
-    await nuxt.ready()
   }
 
-  app.use(ctx => {
+  // 4. Koa 中间件挂载 Nuxt 渲染
+  app.use(async (ctx, next) => {
     ctx.status = 200
-    ctx.respond = false // Bypass Koa's built-in response handling
-    ctx.req.ctx = ctx // This might be useful later on, e.g. in nuxtServerInit or with nuxt-stash
-    nuxt.render(ctx.req, ctx.res)
+    ctx.respond = false // 让 Nuxt 自己处理响应
+    await nuxt.render(ctx.req, ctx.res)
   })
 
-  app.listen(port, host)
-  consola.ready({
-    message: `Server listening on http://${host}:${port}`,
-    badge: true
+  // 5. 启动服务
+  const port = process.env.PORT || 4002
+  app.listen(port, () => {
+    consola.ready({
+      message: `Server listening on http://localhost:${port}`,
+      badge: true
+    })
   })
 }
 

@@ -11,6 +11,8 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
+    "@nuxt/babel-preset-app": "^2.18.1",
+    "@nuxt/vue-app": "^2.18.1",
     "@vssue/api-github-v3": "^1.0.0",
     "axios": "^0.19.0",
     "consola": "^2.7.1",
@@ -19,15 +21,25 @@
     "gitalk": "^1.5.0",
     "gitment": "0.0.3",
     "koa": "^2.6.2",
+    "node-fetch-native": "^1.6.7",
     "nuxt": "^2.0.0",
     "pug": "^2.0.3",
     "pug-plain-loader": "^1.0.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "vssue": "^1.0.1",
+    "vue": "^2.7.16",
     "vue-markdown": "^2.2.4"
   },
   "devDependencies": {
-    "nodemon": "^1.18.9"
+    "@babel/runtime": "^7.28.4",
+    "core-js": "^2.6.12",
+    "nodemon": "^1.18.9",
+    "regenerator-runtime": "^0.14.1",
+    "ufo": "^1.6.1",
+    "unfetch": "^5.0.0",
+    "vue-client-only": "^2.1.0",
+    "vue-no-ssr": "^1.1.1",
+    "vue-router": "^3.6.5"
   }
 }
